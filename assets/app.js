@@ -10,3 +10,9 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+new Vue({
+    el: '#vue-app',
+    data: { message: "Hola mundo desde Vue." },
+    delimiters: ['${','}$'],
+});

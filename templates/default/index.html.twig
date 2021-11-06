@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Colas de atención{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header alert-primary">
+            <h1 class="text-center">Atención al cliente</h1>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="offset-sm-6 offset-md-9 offset-lg-10 col-sm-6 col-md-3 col-lg-2">
+                    <a href="{{ path('ticket_new') }}">
+                        <button type="button" class="btn btn-success">
+                            <i class="bi bi-plus-circle"></i>Agregar ticket
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-12 col-md-6" id="app">
+                    <div class="card">
+                        <div class="card-header alert-info">
+                            <h2 class="text-center text-capitalize">Cola de atención #1</h2>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i, nodo in colaAtencion1 %}
+                                    <tr>
+                                        <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>
+                                        <td>{{ id }}</td>
+                                        <td>{{ nombre }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="3" class="text-center">No se encontraron datos</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6" id="app">
+                    <div class="card">
+                        <div class="card-header alert-info">
+                            <h2 class="text-center text-capitalize">Cola de atención #2</h2>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i, nodo in colaAtencion1 %}
+                                    <tr>
+                                        <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>
+                                        <td>{{ id }}</td>
+                                        <td>{{ nombre }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="3" class="text-center">No se encontraron datos</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Table -->
+        </div>
+    </div>
+</div>
+{% endblock %}
