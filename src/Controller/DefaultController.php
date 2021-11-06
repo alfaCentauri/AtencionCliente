@@ -51,10 +51,27 @@ class DefaultController extends AbstractController
      */
     public function new(Request $request ): Response
     {
+        return $this->renderForm('default/formulario.html.twig', array());
+    }
+
+    /**
+     * @Route("/save", name="ticket_save", methods={"POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function save(Request $request ): Response
+    {
+        $this->processDataForm($request);
+        return $this->redirectToRoute('ticket_index', array());
+    }
+
+    /**
+     * @param Request $request
+     */
+    private function processDataForm(Request $request): void
+    {
         $this->ticket = new Ticket();
         $this->ticket->setId($request->request->get("id",0));
         $this->ticket->setNombre($request->request->get("nombre",""));
-
-        return $this->renderForm('default/formulario.html.twig', array());
     }
 }

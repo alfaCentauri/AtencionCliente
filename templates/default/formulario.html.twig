@@ -2,6 +2,11 @@
 
 {% block title %}Formulario de atención{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
 {% block body %}
 <div class="container-fluid">
     <div id="vue-app">
