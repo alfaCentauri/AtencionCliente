@@ -11,8 +11,37 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 
-new Vue({
+//Definition of the components
+Vue.component('id-ticket', {
+    template: '<div class="input-group">\n' +
+        '           <div class="col-sm-12 offset-md-2 col-md-4 col-lg-3" >\n' +
+        '               <label for="id" class="form-label">Id: </label>\n' +
+        '           </div>\n' +
+        '           <div class="col-sm-12 col-md-4 col-lg-3" >\n' +
+        '               <input type="number" id="id" name="id" class="form-control" v-model="id" placeholder="0" />\n' +
+        '           </div>\n' +
+        '      </div>'
+})
+
+Vue.component('name-ticket', {
+    template: '<div class="input-group">\n' +
+        '           <div class="col-sm-12 offset-md-2 col-md-4 col-lg-3" >\n' +
+        '               <label for="nombre" class="form-label">Nombre: </label>\n' +
+        '           </div>\n' +
+        '           <div class="col-sm-12 col-md-4 col-lg-3" >\n' +
+        '               <input type="text" id="nombre" name="nombre" class="form-control" v-model="nombre"\n' +
+        '                   placeholder="Escriba un nombre"/>\n' +
+        '           </div>\n' +
+        '      </div>'
+})
+
+/**Instancia*/
+var vue = new Vue({
     el: '#vue-app',
-    data: { message: "Hola mundo desde Vue." },
+    data: {
+        id: 1,
+        nombre: "Pedro Perez",
+        message: "Nuevo ticket."
+    },
     delimiters: ['${','}$'],
 });
