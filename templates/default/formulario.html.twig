@@ -4,22 +4,21 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('app') }}
+    {#{ encore_entry_link_tags('app') }#}
 {% endblock %}
 
 {% block body %}
 <div class="container-fluid">
     <div id="vue-app">
-        <div class="card">
-            <div class="card-header alert-info">
-                <h1 class="text-center text-capitalize">
-                    ${ message }$
-                </h1>
-            </div>
-            <div class="card-body">
-                <div class="container-fluid">
-                    <form method="post" action="">
-                        <id-ticket></id-ticket>
+        <form method="post" action="{{ path('ticket_save') }}">
+            <div class="card">
+                <div class="card-header alert-info">
+                    <h1 class="text-center text-capitalize">
+                        ${ message }$
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <div class="container-fluid">
                         <div class="input-group">
                             <div class="col-sm-12 offset-md-2 col-md-4 col-lg-3" >
                                 <label for="id" class="form-label">Id: </label>
@@ -28,7 +27,6 @@
                                 <input type="number" id="id" name="id" class="form-control" v-model="id" placeholder="0" />
                             </div>
                         </div>
-                        <name-ticket></name-ticket>
                         <div class="input-group">
                             <div class="col-sm-12 offset-md-2 col-md-4 col-lg-3" >
                                 <label for="nombre" class="form-label">Nombre: </label>
@@ -38,20 +36,23 @@
                                        placeholder="Escriba un nombre"/>
                             </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-            <div class="card-footer alert-info">
-                <div class="row">
-                    <div class="col-sm-6 offset-md-4 col-md-4 offset-lg-8 col-lg-2" >
-                        <a href="" id="botonGuardar" class="btn btn-success btn-lg">Guardar</a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-2" >
-                        <a href="" id="botonCancelar" class="btn btn-danger btn-lg">Cancelar</a>
                     </div>
                 </div>
+                <div class="card-footer alert-info">
+                    <div class="row">
+                        <div class="col-sm-6 offset-md-3 col-md-3 offset-lg-6 col-lg-2" >
+                            <a href="{{ path('ticket_index') }}" id="botonRegresar" class="btn btn-secondary btn-lg">Regresar</a>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-2" >
+                            <input type="submit" id="botonGuardar" class="btn btn-success btn-lg" value="Guardar">
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-2" >
+                            <input type="reset" id="botonCancelar" class="btn btn-danger btn-lg" value="Cancelar">
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}

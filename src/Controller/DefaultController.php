@@ -19,12 +19,12 @@ class DefaultController extends AbstractController
     /**
      * @var array
      */
-    private $colaAtencion1;
+    private $colaAtencion1 = array();
 
     /**
      * @var array
      */
-    private $colaAtencion2;
+    private $colaAtencion2 = array();
 
     /**
      * @Route("/{pag}", name="ticket_index", methods={"GET","POST"}, requirements={"pag"="\d+"})
@@ -62,6 +62,17 @@ class DefaultController extends AbstractController
     public function save(Request $request ): Response
     {
         $this->processDataForm($request);
+        $tiempoEsperaCola1 = sizeof($this->colaAtencion1)*2;
+        $tiempoEsperaCola2 = sizeof($this->colaAtencion2)*3;
+        if($tiempoEsperaCola1 <= $tiempoEsperaCola2)
+        {
+            $this->colaAtencion1 []= $this->ticket;
+        }
+        else
+        {
+            $this->colaAtencion2 []= $this->ticket;
+        }
+        //
         return $this->redirectToRoute('ticket_index', array());
     }
 
