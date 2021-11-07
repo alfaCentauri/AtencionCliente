@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ColaAtencion1Repository;
+use App\Repository\ColaAtencionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ColaAtencion1Repository::class)
+ * @ORM\Entity(repositoryClass=ColaAtencionRepository::class)
  */
 class ColaAtencion
 {
@@ -26,6 +26,23 @@ class ColaAtencion
      * @ORM\Column(type="string", length=255)
      */
     private $nombre;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     */
+    private $numeroCola;
+
+    /**
+     * ColaAtencion constructor.
+     */
+    public function __construct()
+    {
+        $this->id = 0;
+        $this->idTicket = 0;
+        $this->nombre = "";
+        $this->numeroCola = 1;
+    }
 
     public function getId(): ?int
     {
@@ -55,4 +72,21 @@ class ColaAtencion
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getNumeroCola(): int
+    {
+        return $this->numeroCola;
+    }
+
+    /**
+     * @param int $numeroCola
+     */
+    public function setNumeroCola(int $numeroCola): void
+    {
+        $this->numeroCola = $numeroCola;
+    }
+
 }
