@@ -179,15 +179,38 @@ class DefaultController extends AbstractController
         $this->prepararDataForView();
 
         return $this->render('atencion/index.html.twig', [
-            'ticket' => $this->ticket,
-            'numerocola' => $numeroCola,
+            'informacion' => $this->informacionAtencion,
         ]);
     }
 
     /***/
     public function prepararDataForView(): void
     {
+        if(!isset($this->ticket))
+            $this->ticket = new Ticket();
+
         $this->ticket->setId($this->informacionAtencion->getIdTicket());
         $this->ticket->setNombre($this->informacionAtencion->getNombre());
+    }
+
+    /**
+     * Elimina de la base de datos el ticket procesado.
+     * @Route ("/eliminar/{id}", name="ticket_delete", methods={"GET","POST"}, requirements={"id"="\d+"})
+     */
+    public function delete(Request $request, int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $this->informacionAtencion = $entityManager->getRepository(ColaAtencion::class)->find($id);
+        if($this->informacionAtencion)
+        {
+            $entityManager->remove($this->informacionAtencion);
+            $entityManager->flush();
+            $this->addFlash('success','El ticket fue procesado con exito. ');
+        }
+        else
+        {
+            $this->addFlash('danger','El ticket no pudo ser procesado. ');
+        }
+        return $this->redirectToRoute('ticket_index', [], Response::HTTP_SEE_OTHER);
     }
 }

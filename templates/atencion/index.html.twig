@@ -11,12 +11,29 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-12 offset-md-4 col-md-4" >
-                    Ticket #: {{ ticket.id }}
+                    Cola #: {{ informacion.numeroCola}}
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12 offset-md-4 col-md-4" >
-                    Nombre del cliente: {{ ticket.nombre }}
+                    Id: {{ informacion.id }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 offset-md-4 col-md-4" >
+                    Ticket #: {{ informacion.idTicket }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 offset-md-4 col-md-4" >
+                    Nombre del cliente: {{ informacion.nombre }}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-12 offset-md-4 col-md-4" >
+                    <a href="" id="botonProcesar" class="btn btn-success btn-lg">Procesar</a>
                 </div>
             </div>
         </div>
