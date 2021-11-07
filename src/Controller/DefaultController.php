@@ -26,17 +26,12 @@ class DefaultController extends AbstractController
     /**
      * @var array
      */
-    private $listaAtencion;
+    private $colaAtencion1;
 
     /**
      * @var array
      */
-    private $colaAtencion1 = array();
-
-    /**
-     * @var array
-     */
-    private $colaAtencion2 = array();
+    private $colaAtencion2;
 
     /**
      * @Route("/{pag}", name="ticket_index", methods={"GET","POST"}, requirements={"pag"="\d+"})
@@ -49,16 +44,19 @@ class DefaultController extends AbstractController
     {
         $palabra = $request->request->get('buscar', null);
         $inicio = ($pag-1)*10;
-        $totaltickets = $informacionAtencionRepository->contarTodos();
-        $this->listaAtencion = $informacionAtencionRepository->paginarColaAtencion($inicio, 10);
-        $paginas = $this->calcularPaginasTotalesAMostrar($totaltickets);
-        $this->prepararColasParaVista();
+        $totalTicketsCola1 = $informacionAtencionRepository->countAllByNumberCola(1);
+        $totalTicketsCola2 = $informacionAtencionRepository->countAllByNumberCola(2);
+        $this->colaAtencion1 = $informacionAtencionRepository->paginarColaAtencion($inicio, 10, 1);
+        $this->colaAtencion2 = $informacionAtencionRepository->paginarColaAtencion($inicio, 10, 2);
+        $paginasCola1 = $this->calcularPaginasTotalesAMostrar($totalTicketsCola1);
+        $paginasCola2 = $this->calcularPaginasTotalesAMostrar($totalTicketsCola2);
 
         return $this->render('default/index.html.twig', [
             'colaAtencion1' => $this->colaAtencion1,
             'colaAtencion2' => $this->colaAtencion2,
             'paginaActual' => $pag,
-            'total' => $paginas,
+            'totalPaginasCola1' => $paginasCola1,
+            'totalPaginasCola2' => $paginasCola2,
         ]);
     }
 
@@ -73,16 +71,6 @@ class DefaultController extends AbstractController
             $paginasTotales = ceil( $total/10 );
         }
         return $paginasTotales;
-    }
-
-    /***/
-    private function prepararColasParaVista():void
-    {
-        $cantidadTickets = sizeof($this->listaAtencion);
-        for ($i=0; $i < $cantidadTickets; $i++){
-            $nodoActual = $this->listaAtencion[$i];
-            //agregar a la cola que corresponde
-        }
     }
 
     /**
@@ -103,9 +91,8 @@ class DefaultController extends AbstractController
     public function save(Request $request ): Response
     {
         $this->processDataForm($request);
-        $tiempoEsperaCola1 = sizeof($this->colaAtencion1)*2;
-        $tiempoEsperaCola2 = sizeof($this->colaAtencion2)*3;
-        if($tiempoEsperaCola1 <= $tiempoEsperaCola2)
+        $tiempoEsperaColas = $this->comprobarColas();
+        if($tiempoEsperaColas[0] <= $tiempoEsperaColas[1])
         {
             $this->colaAtencion1 []= $this->ticket;
             $this->addTicketToCola(1);
@@ -131,11 +118,34 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @return array Arreglo con el estado de los tiempos de colas.
+     */
+    private function comprobarColas():array
+    {
+        $tiempoEsperaCola = array();
+        if(!isset($this->colaAtencion1))
+            $this->colaAtencion1 = array();
+
+        if(!isset($this->colaAtencion2))
+            $this->colaAtencion2 = array();
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $totalTicketsCola1 = $entityManager->getRepository(ColaAtencion::class)->countAllByNumberCola(1);
+        $tiempoEsperaCola []= $totalTicketsCola1*2;
+        $totalTicketsCola2 = $entityManager->getRepository(ColaAtencion::class)->countAllByNumberCola(2);
+        $tiempoEsperaCola []= $totalTicketsCola2*3;
+        return $tiempoEsperaCola;
+    }
+
+    /**
      * Guarda datos el ticket en la base de datos.
      * @param int $numeroCola
      */
     private function addTicketToCola(int $numeroCola): void
     {
+        if(!isset($this->informacionAtencion))
+            $this->informacionAtencion = new ColaAtencion();
+
         $this->informacionAtencion->setIdTicket($this->ticket->getId());
         $this->informacionAtencion->setNombre($this->ticket->getNombre());
         $this->informacionAtencion->setNumeroCola($numeroCola);
