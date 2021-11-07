@@ -51,12 +51,14 @@ class DefaultController extends AbstractController
         $paginasCola1 = $this->calcularPaginasTotalesAMostrar($totalTicketsCola1);
         $paginasCola2 = $this->calcularPaginasTotalesAMostrar($totalTicketsCola2);
 
+        $tiempoEsperaColas = $this->comprobarColas();
         return $this->render('default/index.html.twig', [
             'colaAtencion1' => $this->colaAtencion1,
             'colaAtencion2' => $this->colaAtencion2,
             'paginaActual' => $pag,
             'totalPaginasCola1' => $paginasCola1,
             'totalPaginasCola2' => $paginasCola2,
+            'tiemposEsperasColas' => $tiempoEsperaColas
         ]);
     }
 
