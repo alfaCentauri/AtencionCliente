@@ -27,7 +27,7 @@ class ColaAtencionRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         try{
-            $resultado = $entityManager->createQuery('SELECT count(a.id) FROM App\Entity\ColaAtencion C')
+            $resultado = $entityManager->createQuery('SELECT count(C.id) FROM App\Entity\ColaAtencion C')
                 ->getSingleScalarResult();
         }catch(NoResultException $e){
             return 0;
