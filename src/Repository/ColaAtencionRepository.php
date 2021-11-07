@@ -105,4 +105,21 @@ class ColaAtencionRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    /**
+     * Encuentra el primer registro.
+     * @param int $numeroCola
+     * @return ColaAtencion|null Regresa el objeto encontrado o nulo.
+     */
+    public function findFirst(int $numeroCola): ?ColaAtencion
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.numeroCola = :valor')
+            ->setParameter('valor', $numeroCola)
+            ->setFirstResult(1)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

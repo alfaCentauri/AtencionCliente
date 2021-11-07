@@ -50,8 +50,13 @@
                             </table>
                         </div>
                         <div class="card-footer alert-info">
-                            <div class="col-sm-12 offset-md-4 col-md-8 offset-lg-6 col-lg-6">
-                                 Tiempo de espera total: <span class="text-dark">{{ tiemposEsperasColas[0] }}</span> minutos
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 col-lg-6">
+                                    <a href="{{ path('atencion_ticket', {'numeroCola': 1}) }}" id="botonAtender" class="btn btn-primary">Atender</a>
+                                </div>
+                                <div class="col-sm-12 col-md-8 col-lg-6">
+                                     Tiempo de espera total: <span class="text-dark">{{ tiemposEsperasColas[0] }}</span> minutos
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,8 +92,13 @@
                         </div>
                     </div>
                     <div class="card-footer alert-info">
-                        <div class="col-sm-12 offset-md-4 col-md-8 offset-lg-6 col-lg-6">
-                            Tiempo de espera total: <span class="text-dark">{{ tiemposEsperasColas[1] }}</span> minutos
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 col-lg-6">
+                                <a href="{{ path('atencion_ticket', {'numeroCola': 2}) }}" id="botonAtender" class="btn btn-primary">Atender</a>
+                            </div>
+                            <div class="col-sm-12 col-md-8 col-lg-6">
+                                Tiempo de espera total: <span class="text-dark">{{ tiemposEsperasColas[1] }}</span> minutos
+                            </div>
                         </div>
                     </div>
                 </div>

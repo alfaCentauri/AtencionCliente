@@ -51,7 +51,7 @@ class DefaultController extends AbstractController
         $paginasCola1 = $this->calcularPaginasTotalesAMostrar($totalTicketsCola1);
         $paginasCola2 = $this->calcularPaginasTotalesAMostrar($totalTicketsCola2);
 
-        $tiempoEsperaColas = $this->comprobarColas();
+        $tiempoEsperaColas = $this->checkQueue();
         return $this->render('default/index.html.twig', [
             'colaAtencion1' => $this->colaAtencion1,
             'colaAtencion2' => $this->colaAtencion2,
@@ -93,18 +93,18 @@ class DefaultController extends AbstractController
     public function save(Request $request ): Response
     {
         $this->processDataForm($request);
-        $tiempoEsperaColas = $this->comprobarColas();
+        $tiempoEsperaColas = $this->checkQueue();
         if($tiempoEsperaColas[0] <= $tiempoEsperaColas[1])
         {
             $this->colaAtencion1 []= $this->ticket;
-            $this->addTicketToCola(1);
+            $this->addTicketToQueue(1);
         }
         else
         {
             $this->colaAtencion2 []= $this->ticket;
-            $this->addTicketToCola(2);
+            $this->addTicketToQueue(2);
         }
-        $this->savingColaAtencion();
+        $this->savingQueueAttention();
         $this->addFlash('success','El ticket fue guardado con exito.');
         return $this->redirectToRoute('ticket_index', array());
     }
@@ -122,7 +122,7 @@ class DefaultController extends AbstractController
     /**
      * @return array Arreglo con el estado de los tiempos de colas.
      */
-    private function comprobarColas():array
+    private function checkQueue():array
     {
         $tiempoEsperaCola = array();
         if(!isset($this->colaAtencion1))
@@ -143,7 +143,7 @@ class DefaultController extends AbstractController
      * Guarda datos el ticket en la base de datos.
      * @param int $numeroCola
      */
-    private function addTicketToCola(int $numeroCola): void
+    private function addTicketToQueue(int $numeroCola): void
     {
         if(!isset($this->informacionAtencion))
             $this->informacionAtencion = new ColaAtencion();
@@ -156,10 +156,38 @@ class DefaultController extends AbstractController
     /**
      * Persistiendo la información en la base de datos.
      */
-    private function savingColaAtencion():void
+    private function savingQueueAttention():void
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($this->informacionAtencion);
         $entityManager->flush();
+    }
+
+    /**
+     * Atendiendo la cola.
+     *
+     * @Route("/atencion/{numeroCola}", name="atencion_ticket", methods={"GET","POST"}, requirements={"numeroCola"="\d+"})
+     *
+     * @param Request $request
+     * @param int $numeroCola
+     * @return Response
+     */
+    public function attention(Request $request, int $numeroCola = 0): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $this->informacionAtencion = $entityManager->getRepository(ColaAtencion::class)->findFirst($numeroCola);
+        $this->prepararDataForView();
+
+        return $this->render('atencion/index.html.twig', [
+            'ticket' => $this->ticket,
+            'numerocola' => $numeroCola,
+        ]);
+    }
+
+    /***/
+    public function prepararDataForView(): void
+    {
+        $this->ticket->setId($this->informacionAtencion->getIdTicket());
+        $this->ticket->setNombre($this->informacionAtencion->getNombre());
     }
 }
