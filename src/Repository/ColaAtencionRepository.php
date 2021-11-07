@@ -116,7 +116,7 @@ class ColaAtencionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->where('c.numeroCola = :valor')
             ->setParameter('valor', $numeroCola)
-            ->setFirstResult(1)
+            ->setFirstResult(0)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()

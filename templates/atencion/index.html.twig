@@ -30,10 +30,14 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer">
+        <div class="card-footer alert-info">
             <div class="row">
-                <div class="col-sm-12 offset-md-4 col-md-4" >
-                    <a href="" id="botonProcesar" class="btn btn-success btn-lg">Procesar</a>
+                <div class="col-sm-6 offset-md-6 col-md-3 offset-lg-8 col-lg-2" >
+                    <a href="{{ path('ticket_index') }}" id="botonRegresar" class="btn btn-secondary btn-lg">Regresar</a>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-2" >
+                    <a href="{{ path('ticket_delete', { 'id': informacion.id }) }}" id="botonProcesar"
+                       class="btn btn-success btn-lg">Procesar</a>
                 </div>
             </div>
         </div>
