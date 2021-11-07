@@ -47,3 +47,16 @@ var vue = new Vue({
     },
     delimiters: ['${','}$'],
 });
+
+var vue2 = new Vue({
+    el: '#vue-table',
+    data: {
+        cola: [],
+    },
+    delimiters: ['${','}$'],
+    // methods: {
+    //     getCola1() {
+    //         $ajax().
+    //     },
+    // }
+});

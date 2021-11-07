@@ -26,28 +26,31 @@
                             <h2 class="text-center text-capitalize">Cola de atención #1</h2>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Id Ticket</th>
-                                    <th>Nombre</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for i, ticket in colaAtencion1 %}
+                            <div class="row">
+                                <table class="table table-striped">
+                                    <thead>
                                     <tr>
-                                        <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>
-                                        <td>{{ ticket.id }}</td>
-                                        <td>{{ ticket.nombre }}</td>
+                                        <th>#</th>
+                                        <th>Id Ticket</th>
+                                        <th>Nombre</th>
                                     </tr>
-                                {% else %}
-                                    <tr>
-                                        <td colspan="3" class="text-center">No se encontraron datos</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    {% for i, ticket in colaAtencion1 %}
+                                        <tr>
+                                            <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>
+                                            <td>{{ ticket.id }}</td>
+                                            <td>{{ ticket.nombre }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="3" class="text-center">No se encontraron datos</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% include 'default/paginador.html.twig' with {'total': totalPaginasCola1} %}
                         </div>
                         <div class="card-footer alert-info">
                             <div class="row">
@@ -67,28 +70,31 @@
                             <h2 class="text-center text-capitalize">Cola de atención #2</h2>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Id Ticket</th>
-                                    <th>Nombre</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for i, ticket in colaAtencion2 %}
+                            <div class="row">
+                                <table class="table table-striped">
+                                    <thead>
                                     <tr>
-                                        <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>
-                                        <td>{{ ticket.id }}</td>
-                                        <td>{{ ticket.nombre }}</td>
+                                        <th>#</th>
+                                        <th>Id Ticket</th>
+                                        <th>Nombre</th>
                                     </tr>
-                                {% else %}
-                                    <tr>
-                                        <td colspan="3" class="text-center">No se encontraron datos</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    {% for i, ticket in colaAtencion2 %}
+                                        <tr>
+                                            <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>
+                                            <td>{{ ticket.id }}</td>
+                                            <td>{{ ticket.nombre }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="3" class="text-center">No se encontraron datos</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% include 'default/paginador.html.twig' with {'total': totalPaginasCola2} %}
                         </div>
                     </div>
                     <div class="card-footer alert-info">
