@@ -1,7 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Colas de atención{% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+    <style>
+        .dataTables_filter{
+            display: none;
+        }
+    </style>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+{% endblock %}
 {% block body %}
 <div class="container-fluid">
     <div class="card">
@@ -27,28 +39,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Id Ticket</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for i, ticket in colaAtencion1 %}
-                                        <tr>
-                                            <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>
-                                            <td>{{ ticket.id }}</td>
-                                            <td>{{ ticket.nombre }}</td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="3" class="text-center">No se encontraron datos</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                                {% include 'atencion/table.html.twig' with {'colaAtencion': colaAtencion1} %}
                             </div>
                             {% include 'default/paginador.html.twig' with {'total': totalPaginasCola1} %}
                         </div>
@@ -71,28 +62,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Id Ticket</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for i, ticket in colaAtencion2 %}
-                                        <tr>
-                                            <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>
-                                            <td>{{ ticket.id }}</td>
-                                            <td>{{ ticket.nombre }}</td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="3" class="text-center">No se encontraron datos</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                                {% include 'atencion/table.html.twig' with {'colaAtencion': colaAtencion2} %}
                             </div>
                             {% include 'default/paginador.html.twig' with {'total': totalPaginasCola2} %}
                         </div>
@@ -108,7 +78,7 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- End Table -->
+            </div>
         </div>
     </div>
 </div>
