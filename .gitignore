@@ -63,3 +63,4 @@ yarn-error.log
 /.env.test
 /nbproject/private/
 /nbproject/
+/AtencionCliente.sql
