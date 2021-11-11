@@ -12,7 +12,7 @@ Implementa un sistema sencillo, para atención al cliente, donde se tiene un peq
 - Ejecute en la raiz del proyecto el comando: **composer install** .
 - Ejecute en la raiz del proyecto el comando: **yarn install** .
 - Espere que se sincronicen las dependencias.
-- Ejecute en la raiz del proyecto el comando: **yarn --watch**
+- Ejecute en la raiz del proyecto el comando: **yarn watch**
 - Cree un usuario de mysql para que tenga acceso a la base de datos del proyecto.
 - Coloque los parámetros de su configuración de base de datos en el archivo .env, para poder hacer uso de la base de 
   datos. 
