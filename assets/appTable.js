@@ -6,7 +6,10 @@ import './bootstrap';
 import $ from 'jquery';
 
 /**Definition of the components */
-
+Vue.component('vueTable', {
+    props: ['dataSets'],
+    template: ''
+});
 
 /** Source dataSets */
 var dataSets = [];
