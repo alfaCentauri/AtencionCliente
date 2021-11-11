@@ -89,7 +89,7 @@ var vue2 = new Vue({
         getCola1() {
             $ajax({
                 url: "{{ path('api_colas', {'numeroCola': 1}) }}",
-                data: formData,     //debug
+                data: null,     //debug
                 dataType: 'text',
                 cache: false,
                 async: false,
