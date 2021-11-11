@@ -77,12 +77,12 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/new", name="ticket_new", methods={"GET","POST"})
-     * @param Request $request
+     *
      * @return Response
      */
-    public function new(Request $request ): Response
+    public function new( ): Response
     {
-        return $this->renderForm('default/formulario.html.twig', array());
+        return $this->render('default/formulario.html.twig', array());
     }
 
     /**

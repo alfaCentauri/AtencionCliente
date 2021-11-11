@@ -10,6 +10,7 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+import $ from 'jquery';
 
 /**Definition of the components */
 Vue.component('id-ticket', {
@@ -87,7 +88,7 @@ var vue2 = new Vue({
     methods: {
         getCola1() {
             $ajax({
-                url: "{{ path('ruta') }}",
+                url: "{{ path('api_colas', {'numeroCola': 1}) }}",
                 data: formData,     //debug
                 dataType: 'text',
                 cache: false,
@@ -100,19 +101,20 @@ var vue2 = new Vue({
                     if (typeof (data) != 'undefined') {
                         result = JSON.parse(data);
                         var maximo = result.length;
-                        for(var i = 0; i < maximo; i++){
+                        for (var i = 0; i < maximo; i++) {
                             var node = {
                                 "idTicket": result[i]["idTicket"],
                                 "Nombre": result[i]["name"],
                             };
                             dataSets.push(node);
                             //Update table
-                            table.row.add( [
+                            table.row.add([
                                 node['idTicket'],
                                 node['Nombre'],
-                            ] ).draw( false );
+                            ]).draw(false);
                             counterRows++;
                             //Clean input
+                        }
                     }
                 },
                 error: function () {    //debug

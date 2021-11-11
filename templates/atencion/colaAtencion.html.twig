@@ -1,0 +1,22 @@
+<div class="col-sm-12 col-md-6" id="vue-table">
+    <div class="card">
+        <div class="card-header alert-info">
+            <h2 class="text-center text-capitalize">Cola de atención #{{ numeroCola }}</h2>
+        </div>
+        <div class="card-body">
+            {% include 'atencion/table.html.twig' with {'colaAtencion': colaAtencion} %}
+            {% include 'default/paginador.html.twig' with {'total': totalPaginasCola} %}
+        </div>
+        <div class="card-footer alert-info">
+            <div class="row">
+                <div class="col-sm-12 col-md-4 col-lg-6">
+                    <a href="{{ path('atencion_ticket', {'numeroCola': numeroCola}) }}" id="botonAtender"
+                       class="btn btn-primary">Atender</a>
+                </div>
+                <div class="col-sm-12 col-md-8 col-lg-6">
+                    Tiempo de espera total: <span class="text-dark">{{ tiempoEsperaCola }}</span> minutos
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
