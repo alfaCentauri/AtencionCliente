@@ -11,6 +11,7 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 import $ from 'jquery';
+import './jquery.dataTables.min.js';
 
 /**Definition of the components */
 Vue.component('id-ticket', {
@@ -64,6 +65,7 @@ var dataSets = [];
 var table = $('#vueTable').DataTable( {
     data: dataSets,
     columns: [
+        { title: "#" },
         { title: "idTicket" },
         { title: "Nombre" },
     ],
@@ -95,9 +97,9 @@ var vue2 = new Vue({
     },
     delimiters: ['${','}$'],
     methods: {
-        getCola(numeroCola, numeroPagina) {
-            $ajax({
-                url: "{{ path('api_cola', {'numeroCola': "+numeroCola+", 'pag': "+numeroPagina+"}) }}",
+        getCola(numeroCola) {
+            $.ajax({
+                url: "/api/"+numeroCola,
                 data: null,     //debug
                 dataType: 'text',
                 cache: false,
@@ -108,7 +110,7 @@ var vue2 = new Vue({
                 type: "POST",
                 success: function (data) {
                     if (typeof (data) != 'undefined') {
-                        result = JSON.parse(data);
+                        var result = JSON.parse(data);
                         //
                         var colaAtencion = result['colaAtencion'];
                         var totalPaginasCola = result['paginasCola'];
@@ -117,12 +119,14 @@ var vue2 = new Vue({
                         var maximo = colaAtencion.length;
                         for (var i = 0; i < maximo; i++) {
                             var node = {
+                                "id": (i+1),
                                 "idTicket": colaAtencion[i]["idTicket"],
                                 "Nombre": colaAtencion[i]["nombre"],
                             };
                             dataSets.push(node);
                             //Update table
                             table.row.add([
+                                node['id'],
                                 node['idTicket'],
                                 node['Nombre'],
                             ]).draw(false);
@@ -133,11 +137,25 @@ var vue2 = new Vue({
                 },
                 error: function () {    //debug
                     alert("Error on service!");
+                    if (typeof (data) != 'undefined') {
+                        result = JSON.parse(data);
+                        console.log(result['message'] + "Status: " + result['status']);
+                    }
                 },
                 complete: function () {
                     console.log("Completado...");
                 }
             });
         },
-    }
+    },   
+    created: function () {
+        this.getCola(1,1);
+        console.log('La data es: ' + this.data);
+        console.log("\nLa tabla es: "+dataSets.toString());
+    },
+    beforeUpdate:function () {
+        console.log('Antes de actualizar la data. ' );
+        this.getCola(1,1);
+        console.log("\nLa tabla es: "+dataSets.toString());
+    },
 });

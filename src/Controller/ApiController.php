@@ -32,19 +32,17 @@ class ApiController extends AbstractController
     private $colaAtencion;
     
     /**
-     * @Route("/api/{numeroCola}/{pag}", name="api_cola", 
-     * methods={"GET","POST"}, requirements={"pag"="\d+", "numeroCola"="\d+"})
+     * @Route("/api/{numeroCola}", name="api_cola", 
+     * methods={"GET","POST"}, requirements={"numeroCola"="\d+"})
      * @param Request $request
-     * @param int $pag Entero con el número de página a mostrar.
      * @param int $numeroCola Entero con el número de cola a buscar.
      * @return Response Regresa un JSon al cliente de la api.
      */
-    public function index(Request $request, int $pag = 1, int $numeroCola = 1) {
+    public function index(Request $request, int $numeroCola = 1) {
         $result = array();
-        $inicio = ($pag-1)*10;
         $entityManager = $this->getDoctrine()->getManager();
         $totalTicketsCola = $entityManager->getRepository(ColaAtencion::class)->countAllByNumberCola($numeroCola);
-        $this->colaAtencion = $entityManager->getRepository(ColaAtencion::class)->paginarColaAtencion($inicio, 10, $numeroCola);
+        $this->colaAtencion = $entityManager->getRepository(ColaAtencion::class)->todosColaAtencion($numeroCola);
         $paginasCola = $this->calcularPaginasTotalesAMostrar($totalTicketsCola);
         $tiempoEsperaCola = $this->checkQueue($numeroCola);
         $result = $this->buildJsonResponse($paginasCola, $tiempoEsperaCola);

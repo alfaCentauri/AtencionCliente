@@ -8,11 +8,13 @@
         </tr>
         </thead>
         <tbody>
-        <templateRow
-            v-for="ticket in tickets"
-            v-bind:ticket="ticket"
-        >
-        </templateRow>
+            <div id="vue-table">
+                <templateRow
+                    v-for="ticket in tickets"
+                    v-bind:ticket="ticket"
+                >
+                </templateRow>
+            </div>
         {#
         {% for i, ticket in colaAtencion %}
             <tr>
