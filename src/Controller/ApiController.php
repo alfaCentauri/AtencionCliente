@@ -104,8 +104,6 @@ class ApiController extends AbstractController
                 $cola []= $ticket;
             }
             $result ['colaAtencion'] = $cola;
-            $result ['paginasCola'] = $paginasCola;
-            $result ['tiempoEsperaCola'] = $tiempoEsperaCola;
         }catch (Exception $exception) {
             $result = [
                 'success' => false,

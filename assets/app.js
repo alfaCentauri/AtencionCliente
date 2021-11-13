@@ -39,6 +39,15 @@ Vue.component('name-ticket', {
         '      </div>'
 });
 
+Vue.component('templateRow', {
+    props: ['ticket'],
+    template: '<tr>\n' +
+        '           <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>\n' +
+        '           <td>${ ticket.idTicket }$</td>\n' +
+        '           <td>${ ticket.nombre }$</td>\n' +
+        '      </tr>'
+});
+
 /**Instancia*/
 var vue = new Vue({
     el: '#vue-app',
@@ -54,7 +63,7 @@ var vue = new Vue({
 var dataSets = [];
 var dataSetsCola2 = [];
 /** DataTables config */
-var table = $('#vueTable').DataTable( {
+var table = $('#vueTable1').DataTable( {
     data: dataSets,
     columns: [
         { title: "#" },
@@ -83,7 +92,7 @@ var counterRows = 0;
 
 /** Tabla con Vue **/
 var vue2 = new Vue({
-    el: '#vueTable1',
+    el: '#vue-table',
     data: {
         tickets: [],
     },
@@ -177,7 +186,7 @@ var counterRows2 = 0;
 
 /** Tabla de cola 2 con Vue **/
 var vue3 = new Vue({
-    el: '#vueTable2',
+    el: '#vue-table',
     data: {
         tickets: [],
     },
