@@ -1,5 +1,5 @@
 <div class="row">
-    <table class="table table-striped" id="vueTable" name="vueTable">
+    <table class="table table-striped" id="vueTable{{ numeroCola }}" name="vueTable{{ numeroCola }}">
         <thead>
         <tr>
             <th>#</th>
@@ -8,6 +8,14 @@
         </tr>
         </thead>
         <tbody>
+            <div id="vue-table">
+                <templateRow
+                    v-for="ticket in tickets"
+                    v-bind:ticket="ticket"
+                >
+                </templateRow>
+            </div>
+        {#
         {% for i, ticket in colaAtencion %}
             <tr>
                 <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>
@@ -19,6 +27,7 @@
                 <td colspan="3" class="text-center">No se encontraron datos</td>
             </tr>
         {% endfor %}
+        #}
         </tbody>
     </table>
 </div>

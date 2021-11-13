@@ -3,16 +3,34 @@
 
 namespace App\Entity;
 
-
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+ * Class Ticket.
+ * @author Ingeniero en computación: Ricardo Presilla.
+ * @version 1.0.
+ */
 class Ticket
 {
     /**
      * @var integer
+     *
+     * @Assert\Range(
+     *     min =1,
+     *     max=10000,
+     *      minMessage = "El número del ticket debe ser mínimo {{ limit }}. ",
+     *      maxMessage = "El número del ticket no debe ser mayor a {{ limit }}. ")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min =2,
+     *     max=255,
+     *      minMessage = "El nombre debe ser mínimo {{ limit }} caracteres de largo",
+     *      maxMessage = "El nombre no debe tener mas de {{ limit }} caracteres")
      */
     private $nombre;
 

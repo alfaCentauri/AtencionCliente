@@ -10,6 +10,8 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+import $ from 'jquery';
+import './jquery.dataTables.min.js';
 
 /**Definition of the components */
 Vue.component('id-ticket', {
@@ -37,6 +39,15 @@ Vue.component('name-ticket', {
         '      </div>'
 });
 
+Vue.component('templateRow', {
+    props: ['ticket'],
+    template: '<tr>\n' +
+        '           <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>\n' +
+        '           <td>${ ticket.idTicket }$</td>\n' +
+        '           <td>${ ticket.nombre }$</td>\n' +
+        '      </tr>'
+});
+
 /**Instancia*/
 var vue = new Vue({
     el: '#vue-app',
@@ -46,4 +57,195 @@ var vue = new Vue({
         message: "Nuevo ticket"
     },
     delimiters: ['${','}$'],
+});
+
+/** Source dataSets */
+var dataSets = [];
+var dataSetsCola2 = [];
+/** DataTables config */
+var table = $('#vueTable1').DataTable( {
+    data: dataSets,
+    columns: [
+        { title: "#" },
+        { title: "idTicket" },
+        { title: "Nombre" },
+    ],
+    "language": {
+        "lengthMenu": "Mostrar _MENU_ registros por página",
+        "zeroRecords": "No hay registros disponibles",
+        "info": "Mostrando página _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay registros disponibles",
+        "infoFiltered": "(filtrado de _MAX_ total registros)",
+        "paginate": {
+            "first": "Primera página",
+            "last": "Ultima página",
+            "next": "Página siguiente",
+            "previous": "Página anterior"
+        },
+        "search": "Buscar: ",
+    },
+    "paging":   true,
+    "ordering": false,
+    "info":     false,
+} );
+var counterRows = 0;
+
+/** Tabla con Vue **/
+var vue2 = new Vue({
+    el: '#vue-table',
+    data: {
+        tickets: [],
+    },
+    delimiters: ['${','}$'],
+    methods: {
+        getCola(numeroCola) {
+            $.ajax({
+                url: "/api/"+numeroCola,
+                data: null,     //debug
+                dataType: 'text',
+                cache: false,
+                async: false,
+                contentType: false,
+                processData: false,
+                mimeType: 'multipart/form_data',
+                type: "POST",
+                success: function (data) {
+                    if (typeof (data) != 'undefined') {
+                        var result = JSON.parse(data);
+                        var colaAtencion = result['colaAtencion'];
+                        var maximo = colaAtencion.length;
+                        for (var i = 0; i < maximo; i++) {
+                            var node = {
+                                "id": (i+1),
+                                "idTicket": colaAtencion[i]["idTicket"],
+                                "Nombre": colaAtencion[i]["nombre"],
+                            };
+                            dataSets.push(node);
+                            //Update table
+                            table.row.add([
+                                node['id'],
+                                node['idTicket'],
+                                node['Nombre'],
+                            ]).draw(false);
+                            counterRows++;
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Error on service!");
+                    if (typeof (data) != 'undefined') {
+                        result = JSON.parse(data);
+                        console.log(result['message'] + "Status: " + result['status']);
+                    }
+                },
+                complete: function () {
+                    console.log("Completado la cola #1.");
+                }
+            });
+        },
+    },   
+    created: function () {
+        this.getCola(1);
+        console.log('La data de la cola #1 es: ' + this.data);
+        console.log("\nLa tabla #1 es: "+dataSets.toString());
+    },
+    beforeUpdate:function () {
+        console.log('Antes de actualizar la data. ' );
+        this.getCola(1);
+        console.log("\nLa tabla #1 es: "+dataSets.toString());
+    },
+});
+
+/** DataTables config */
+var table2 = $('#vueTable2').DataTable( {
+    data: dataSetsCola2,
+    columns: [
+        { title: "#" },
+        { title: "idTicket" },
+        { title: "Nombre" },
+    ],
+    "language": {
+        "lengthMenu": "Mostrar _MENU_ registros por página",
+        "zeroRecords": "No hay registros disponibles",
+        "info": "Mostrando página _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay registros disponibles",
+        "infoFiltered": "(filtrado de _MAX_ total registros)",
+        "paginate": {
+            "first": "Primera página",
+            "last": "Ultima página",
+            "next": "Página siguiente",
+            "previous": "Página anterior"
+        },
+        "search": "Buscar: ",
+    },
+    "paging":   true,
+    "ordering": false,
+    "info":     false,
+} );
+var counterRows2 = 0;
+
+/** Tabla de cola 2 con Vue **/
+var vue3 = new Vue({
+    el: '#vue-table',
+    data: {
+        tickets: [],
+    },
+    delimiters: ['${','}$'],
+    methods: {
+        getCola() {
+            $.ajax({
+                url: "/api/2",
+                data: null,     //debug
+                dataType: 'text',
+                cache: false,
+                async: false,
+                contentType: false,
+                processData: false,
+                mimeType: 'multipart/form_data',
+                type: "POST",
+                success: function (data) {
+                    if (typeof (data) != 'undefined') {
+                        var result = JSON.parse(data);
+                        var colaAtencion = result['colaAtencion'];
+                        var maximo = colaAtencion.length;
+                        for (var i = 0; i < maximo; i++) {
+                            var node = {
+                                "id": (i+1),
+                                "idTicket": colaAtencion[i]["idTicket"],
+                                "Nombre": colaAtencion[i]["nombre"],
+                            };
+                            dataSetsCola2.push(node);
+                            //Update table
+                            table2.row.add([
+                                node['id'],
+                                node['idTicket'],
+                                node['Nombre'],
+                            ]).draw(false);
+                            counterRows2++;
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Error on service!");
+                    if (typeof (data) != 'undefined') {
+                        result = JSON.parse(data);
+                        console.log(result['message'] + "Status: " + result['status']);
+                    }
+                },
+                complete: function () {
+                    console.log("Completada la cola 2.");
+                }
+            });
+        },
+    },
+    created: function () {
+        this.getCola();
+        console.log('La data de la cola 2 es: ' + this.data);
+        console.log("\nLa tabla #2 es: "+dataSetsCola2.toString());
+    },
+    beforeUpdate:function () {
+        console.log('Antes de actualizar la data. ' );
+        this.getCola();
+        console.log("\nLa tabla #2 es: "+dataSetsCola2.toString());
+    },
 });
