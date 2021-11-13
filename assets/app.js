@@ -39,15 +39,6 @@ Vue.component('name-ticket', {
         '      </div>'
 });
 
-Vue.component('templateRow', {
-    props: ['ticket'],
-    template: '<tr>\n' +
-        '           <td>{{ paginaActual>1?((paginaActual-1)*10)+i+1 : i+1}}</td>\n' +
-        '           <td>${ ticket.idTicket }$</td>\n' +
-        '           <td>${ ticket.nombre }$</td>\n' +
-        '      </tr>'
-});
-
 /**Instancia*/
 var vue = new Vue({
     el: '#vue-app',
@@ -83,7 +74,7 @@ var table = $('#vueTable').DataTable( {
         },
         "search": "Buscar: ",
     },
-    "paging":   false,
+    "paging":   true,
     "ordering": false,
     "info":     false,
 } );
@@ -91,7 +82,7 @@ var counterRows = 0;
 
 /** Tabla con Vue **/
 var vue2 = new Vue({
-    el: '#vue-table',
+    el: '#vueTable',
     data: {
         tickets: [],
     },
